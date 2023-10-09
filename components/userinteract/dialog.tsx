@@ -1,29 +1,15 @@
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import React from "react";
 
-const DialogBox = () => {
-  const [isOpen, setIsOpen] = React.useState(true); // Set the initial state to open the dialog
-
-  const handleClose = () => {
-    setIsOpen(false);
-  };
-
+const Dialog = ({
+  speed,
+}: any) => {
   return (
-    <Dialog isOpen={isOpen} onClose={handleClose}>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
-          <DialogDescription>
-            Make changes to your profile here. Click save when you're done.
-          </DialogDescription>
-        </DialogHeader>
-        <DialogFooter>
-          <Button onClick={handleClose}>Save changes</Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+    <>
+       <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
+      Your Typing Speed is: {speed} WPM
+    </h2>
+    </>
   );
-}
+};
 
-export default DialogBox;
+export default Dialog;

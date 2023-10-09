@@ -4,14 +4,17 @@ import Link from "next/link";
 const Footer = () => {
   return (
     <>
-      <div className="Footercontainer w-full absolute bottom-0 p-2 flex gap-3 justify-center items-center ">
-        <div className="socialcontainer flex gap-1">
+      <div className="Footercontainer w-full absolute bottom-0 p-2 flex gap-5 justify-center items-center ">
+      <div className="text-lg font-semibold opacity-90 flex justify-center items-center pb-1">
+        <p>SOCIAL MEDIAS : </p>
+      </div>
+        <div className="socialcontainer flex gap-3">
           <Link href={"https://github.com/vikashkhati007"}>
             <div className="iconcontainer border p-1 rounded-md border-white border-opacity-20 hover:bg-white hover:bg-opacity-10 cursor-pointer">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
+                width="18"
+                height="18"
                 viewBox="0 0 24 24"
               >
                 <mask id="lineMdGithubLoop0" width="24" height="24" x="0" y="0">
@@ -78,8 +81,8 @@ const Footer = () => {
             <div className="iconcontainer border p-1 rounded-md border-white border-opacity-20 hover:bg-white hover:bg-opacity-10 cursor-pointer">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
+                width="18"
+                height="18"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -96,8 +99,8 @@ const Footer = () => {
             <div className="iconcontainer border p-1 rounded-md border-white border-opacity-20 hover:bg-white hover:bg-opacity-10 cursor-pointer">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
+                width="20"
+                height="20"
                 viewBox="0 0 24 24"
               >
                 <path
@@ -110,7 +113,7 @@ const Footer = () => {
 
           <Link href={"https://www.x.com/vikashkhati007"}>
             <div className="iconcontainer border p-1 rounded-md border-white border-opacity-20 hover:bg-white hover:bg-opacity-10 cursor-pointer">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48"><mask id="ipTBigX0"><g fill="#555" stroke="#fff" stroke-linejoin="round" stroke-width="4"><path d="M33 6h11L15 42H4L33 6Z"/><path d="M15 6H4l29 36h11L15 6Z"/></g></mask><path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipTBigX0)"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 48 48"><mask id="ipTBigX0"><g fill="#555" stroke="#fff" stroke-linejoin="round" stroke-width="4"><path d="M33 6h11L15 42H4L33 6Z"/><path d="M15 6H4l29 36h11L15 6Z"/></g></mask><path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipTBigX0)"/></svg>
             </div>
           </Link>
         </div>
