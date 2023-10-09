@@ -6,7 +6,7 @@ const Dialog = ({
   return (
     <>
        <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
-      Your Typing Speed is: {speed} WPM
+      Your Typing Speed is : {speed} WPM
     </h2>
     </>
   );
