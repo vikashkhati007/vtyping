@@ -1,5 +1,7 @@
 import Image from "next/image";
 import { Marmelad } from "next/font/google";
+import CreateIcon from "./authenticate/createicon";
+import { ModeToggle } from "./thememode/mode";
 
 const marmelad = Marmelad({
   subsets: ["latin"],
@@ -7,8 +9,8 @@ const marmelad = Marmelad({
 });
 const Header = () => {
   return (
-    <div className="navcontainer flex justify-around items-center p-2 w-full h-20">
-      <div className="flex justify-start items-center gap-3 ">
+    <div className="navcontainer flex justify-around items-center p-2 w-full h-20 ">
+      <div className="flex justify-start items-center gap-3">
         <Image
           src={"/keyboardicon.png"}
           width={45}
@@ -18,8 +20,8 @@ const Header = () => {
         />
         <h1 className={`${marmelad.className} text-3xl`}>vtyping</h1>
       </div>
-      <div className="usercontainer">
-      <div className="leaderboardcontainer border p-1 rounded-md border-white border-opacity-20 hover:bg-white hover:bg-opacity-10 cursor-pointer">
+      <div className="usercontainer flex justify-center items-center gap-5">
+        <div className="leaderboardcontainer border p-1 rounded-md border-white border-opacity-20 hover:bg-white hover:bg-opacity-10 cursor-pointer">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="28"
@@ -36,6 +38,10 @@ const Header = () => {
             </g>
           </svg>
         </div>
+        <div className="border p-1 rounded-md border-white border-opacity-20 hover:bg-white hover:bg-opacity-10 cursor-pointer">
+        <CreateIcon/>
+        </div>
+        <ModeToggle/>
       </div>
     </div>
   );
