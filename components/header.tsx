@@ -3,11 +3,13 @@ import { Marmelad } from "next/font/google";
 import { ModeToggle } from "./thememode/mode";
 import GroupHoverButton from "./grouphoverbutton";
 import { RegisterDialog } from "./registerform";
+import { useSession } from "next-auth/react";
 
 const marmelad = Marmelad({
   subsets: ["latin"],
   weight: ["400"],
 });
+
 const Header = () => {
   return (
     <div className="navcontainer flex justify-around items-center p-2 w-full h-20 ">

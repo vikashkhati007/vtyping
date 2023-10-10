@@ -13,16 +13,5 @@ model User {
   id       String @id @default(auto()) @map("_id") @db.ObjectId
   username String
   password String
-  sessions Session[] // Add this relation
 }
 
-model Session {
-  id         String @id @default(auto()) @map("_id") @db.ObjectId
-  userId     String
-  expires    DateTime
-  sessionToken String @unique
-  accessToken String @unique
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  user       User @relation(fields: [userId], references: [id]) // Add this relation
-}
