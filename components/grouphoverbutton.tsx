@@ -13,7 +13,7 @@ const GroupHoverButton = ({svg, hovertext}:any) => {
       <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="outline">
+                <Button variant="outline" className={"p-2"}>
                  {svg}
                 </Button>
               </TooltipTrigger>

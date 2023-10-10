@@ -12,6 +12,7 @@ const Input: React.FC = () => {
   );
 
   // Create an array of refs and initialize them to null
+  
   const inputRefs = useRef<HTMLInputElement[]>(
     [...Array(placeholderText.length)].map(() =>
       useRef<HTMLInputElement | null>(null)
