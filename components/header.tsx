@@ -2,8 +2,7 @@ import Image from "next/image";
 import { Marmelad } from "next/font/google";
 import { ModeToggle } from "./thememode/mode";
 import GroupHoverButton from "./grouphoverbutton";
-import { RegisterDialog } from "./registerform";
-import { useSession } from "next-auth/react";
+import User from "./authenticate/user";
 
 const marmelad = Marmelad({
   subsets: ["latin"],
@@ -48,7 +47,7 @@ const Header = () => {
             hovertext={"LeaderBoard"}
           />
         </div>
-        <RegisterDialog/>
+            <User/>
         <ModeToggle />
       </div>
     </div>

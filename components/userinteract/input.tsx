@@ -1,83 +1,83 @@
-"use client";
+"use client"
 import React, { useState, useRef, useEffect } from "react";
 import Dialog from "./dialog";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
 
 const Input: React.FC = () => {
-  // Add the React.FC type annotation
-  const placeholderText: string = "In the soft glow of twilight, the crimson hues of the setting sun painted the sky, casting a spell of serenity upon the world. As the stars began to twinkle, a quiet stillness enveloped everything, and for a moment, all worries faded into the tranquil embrace of the night";
-  const [inputText, setInputText] = useState<string[]>( // Use string[] type
-    new Array(placeholderText.length).fill("")
-  );
-
-  // Create an array of refs and initialize them to null
-  
-  const inputRefs = useRef<HTMLInputElement[]>(
-    [...Array(placeholderText.length)].map(() =>
-      useRef<HTMLInputElement | null>(null)
-    )
-  );
-
+  const placeholderText: string =
+    "In the soft glow of twilight";
+  const [inputText, setInputText] = useState<string[]>(new Array(placeholderText.length).fill(""));
+  const inputRefs = useRef<HTMLInputElement[]>(Array.from({ length: placeholderText.length }) as HTMLInputElement[]);
   const [currentInputIndex, setCurrentInputIndex] = useState<number>(0);
   const [isCompleted, setIsCompleted] = useState<boolean>(false);
   const [showSpeed, setShowSpeed] = useState<boolean>(false);
-  const [startTime, setStartTime] = useState<Date | null>(null); // Use Date | null type
-  const [endTime, setEndTime] = useState<Date | null>(null); // Use Date | null type
+  const [startTime, setStartTime] = useState<number | null>(null); // Use number | null type
+  const [endTime, setEndTime] = useState<number | null>(null); // Use number | null type
   const [speed, setSpeed] = useState<number>(0);
-  const router = useRouter();
+  const [clockDisplay, setClockDisplay] = useState<string>("00:00");
+  const [timeTaken, setTimeTaken] = useState<string | null>(null); // Added timeTaken state
 
-  // Use useEffect to set the refs to the corresponding DOM elements
   useEffect(() => {
     inputRefs.current = inputRefs.current.map(
-      (ref, index) => (ref.current = ref.current || inputRefs.current[index])
+      (ref, index) => (ref = inputRefs.current[index] || null)
     );
   }, []);
 
-  const handleInputChange =
-    (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
-      if (index >= placeholderText.length) {
-        return; // Disable further input if we've reached the end
-      }
-      const newValue: string = event.target.value;
-      const newTextArray: string[] = [...inputText];
-      newTextArray[index] = newValue;
-      setInputText(newTextArray);
+  const updateClock = () => {
+    if (startTime && !isCompleted) {
+      const currentTime = Date.now();
+      const elapsedTimeInSeconds = Math.floor((currentTime - startTime) / 1000);
+      const minutes = Math.floor(elapsedTimeInSeconds / 60).toString().padStart(2, "0");
+      const seconds = (elapsedTimeInSeconds % 60).toString().padStart(2, "0");
+      setClockDisplay(`${minutes}:${seconds}`);
+    }
+  };
 
+  useEffect(() => {
+    const intervalId = setInterval(updateClock, 1000);
+
+    // Cleanup the interval when the component unmounts
+    return () => clearInterval(intervalId);
+  }, [startTime, isCompleted]);
+
+  const handleInputChange = (index: number, newValue: string) => {
+    if (index >= placeholderText.length) {
+      return;
+    }
+
+    const newTextArray: string[] = [...inputText];
+    newTextArray[index] = newValue;
+    setInputText(newTextArray);
+
+    if (newValue !== "") {
       if (!startTime) {
-        // Start timing when the first character is typed
-        setStartTime(new Date());
+        setStartTime(Date.now());
       }
 
-      if (newValue !== "") {
-        // Move focus to the next input field or start over with a slight delay
-        setTimeout(() => {
-          if (index < inputRefs.current.length - 1) {
-            setCurrentInputIndex(index + 1);
-            inputRefs.current[index + 1].focus(); // Access the input element directly
-          } else {
-            setCurrentInputIndex(0);
-            inputRefs.current[0].focus(); // Access the input element directly
-          }
-        }, 50); // Adjust the delay (in milliseconds) as needed
-      }
+      setTimeout(() => {
+        if (index < inputRefs.current.length - 1) {
+          setCurrentInputIndex(index + 1);
+          inputRefs.current[index + 1]?.focus();
+        } else {
+          setCurrentInputIndex(0);
+        }
+      }, 50);
+    }
 
-      // Check if the sentence is completed
-      if (newTextArray.join("") === placeholderText) {
-        setIsCompleted(true);
-        setEndTime(new Date()); // Record end time when the sentence is completed
-      }
-    };
+    if (newTextArray.join("") === placeholderText) {
+      setIsCompleted(true);
+      setEndTime(Date.now());
+      calculateAndShowSpeed(); // Calculate speed when completed
+    }
+  };
 
-  const handleKeyDown =
-    (index: number) => (event: React.KeyboardEvent<HTMLInputElement>) => {
-      if (event.key === "Backspace" && index > 0 && inputText[index] === "") {
-        event.preventDefault();
-        // Move focus to the previous input field
-        setCurrentInputIndex(index - 1);
-        inputRefs.current[index - 1].focus(); // Access the input element directly
-      }
-    };
+  const handleKeyDown = (index: number, event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Backspace" && index > 0 && inputText[index] === "") {
+      event.preventDefault();
+      setCurrentInputIndex(index - 1);
+      inputRefs.current[index - 1]?.focus();
+    }
+  };
 
   const isMismatch = (index: number): boolean => {
     return inputText[index] !== placeholderText.charAt(index);
@@ -85,17 +85,34 @@ const Input: React.FC = () => {
 
   const calculateAndShowSpeed = () => {
     if (startTime && endTime) {
-      const totalTimeInSeconds: number =
-        (endTime.getTime() - startTime.getTime()) / 1000; // Calculate time in seconds
+      const totalTimeInSeconds: number = (endTime - startTime) / 1000;
       const totalWordsTyped: number = placeholderText.split(" ").length;
-      const wpm: number = Math.round(
-        (totalWordsTyped / totalTimeInSeconds) * 60
-      ); // Calculate WPM
-
-      setSpeed(wpm); // Update the speed state
-      setShowSpeed(true); // Show the speed result
+      const wpm: number = Math.round((totalWordsTyped / totalTimeInSeconds) * 60);
+      setSpeed(wpm);
+      setShowSpeed(true);
+  
+      // Calculate and set the time taken
+      const minutes = Math.floor(totalTimeInSeconds / 60);
+      const seconds = Math.floor(totalTimeInSeconds % 60);
+  
+      let timeTaken = "";
+  
+      if (minutes > 0) {
+        timeTaken += `${minutes} minute${minutes > 1 ? "s" : ""} `;
+      }
+  
+      if (seconds > 0) {
+        timeTaken += `${seconds} second${seconds > 1 ? "s" : ""}`;
+      }
+  
+      if (!timeTaken) {
+        timeTaken = "0 seconds";
+      }
+  
+      setTimeTaken(timeTaken);
     }
   };
+  
 
   const resetGame = () => {
     location.reload();
@@ -104,13 +121,20 @@ const Input: React.FC = () => {
   return (
     <>
       {!isCompleted ? (
-        <div className="flex items-center text-lg p-2 flex-wrap ">
+        <>
+         <div className="flex justify-center opacity-50">
+         <p>TIME: {clockDisplay}</p>
+       </div>
+        <div className="flex items-center text-lg p-2 flex-wrap">
           {Array.from(placeholderText).map((char, index) => (
             <div key={index}>
               <input
                 autoComplete="off"
                 autoCorrect="off"
-                ref={inputRefs.current[index]}
+                autoCapitalize="off"
+                autoSave="off"
+                type="text"
+                ref={(el) => (inputRefs.current[index] = el!)}
                 className={`w-3 bg-transparent text-xl font-mono outline-none caret-blue-700 ${
                   isMismatch(index) ? "text-red-500" : ""
                 }`}
@@ -118,20 +142,21 @@ const Input: React.FC = () => {
                 autoFocus={index === currentInputIndex}
                 placeholder={char}
                 value={inputText[index]}
-                onChange={handleInputChange(index)}
-                onKeyDown={handleKeyDown(index)}
+                onChange={(e) => handleInputChange(index, e.target.value)}
+                onKeyDown={(e) => handleKeyDown(index, e)}
                 disabled={index >= placeholderText.length}
-                style={{ pointerEvents: "none" }} // Add inline style
+                style={{ pointerEvents: "none" }}
               />
             </div>
           ))}
         </div>
+        </>
       ) : (
         <div>
           <div className="w-full flex flex-col gap-4 justify-center items-center">
             {showSpeed ? (
               <div>
-                <Dialog speed={speed} />
+                <Dialog speed={speed} timetaken={timeTaken} />
               </div>
             ) : (
               <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
