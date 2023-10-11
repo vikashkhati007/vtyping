@@ -161,6 +161,7 @@ const Input: React.FC = () => {
               <Skeleton className="h-5 w-full" />
               <Skeleton className="h-5 w-full" />
               <Skeleton className="h-5 w-full" />
+              <Skeleton className="h-5 w-full" />
               </div>
             </>
           ) : (
@@ -168,7 +169,7 @@ const Input: React.FC = () => {
               <div className="flex justify-center opacity-50 text-lg my-2">
                 <p className={LatoFont.className}> {clockDisplay}</p>
               </div>
-              <div className="flex items-center text-lg p-2 flex-wrap">
+              <div className="flex items-center text-lg p-2 flex-wrap text-left">
                 {Array.from(placeholderText).map((char, index) => (
                   <div key={index}>
                     <input

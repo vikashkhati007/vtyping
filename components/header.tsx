@@ -23,7 +23,7 @@ const Header = () => {
         <h1 className={`${marmelad.className} text-3xl`}>vtyping</h1>
       </div>
       <div className="usercontainer flex justify-center items-center gap-5">
-        <div className="leaderboardcontainer">
+        {/* <div className="leaderboardcontainer">
           <GroupHoverButton
             svg={
               <>
@@ -47,7 +47,7 @@ const Header = () => {
             hovertext={"LeaderBoard"}
           />
         </div>
-            <User/>
+            <User/> */}
         <ModeToggle />
       </div>
     </div>

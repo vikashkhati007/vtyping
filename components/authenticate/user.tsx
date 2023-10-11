@@ -1,5 +1,5 @@
 "use client";
-export const dynamic = 'store';
+export const dynamic = "store";
 import React from "react";
 import { useState } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
@@ -19,9 +19,7 @@ const User = () => {
       {!authenticate ? (
         <div
           className=" border px-2 py-1 cursor-pointer rounded-md"
-          onClick={() => {
-            signIn();
-          }}
+          onClick={() => signIn("google")}
         >
           {" "}
           <svg
