@@ -1,19 +1,16 @@
 "use client";
+export const dynamic = 'store';
 import React from "react";
 import { useState } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
+import { Skeleton } from "../ui/skeleton";
 const User = () => {
   const { data: session, status } = useSession();
   const [authenticate, setautheticate] = useState(false);
-    if(status === "loading"){
-        return(
-            <div className="border cursor-pointer rounded-md animate-pulse">
-            <div className="w-[32px] h-[32px]"></div>
-          </div>
-          
-        )
-    }
+  if (status === "loading") {
+    return <Skeleton className="w-9 h-9 rounded-md" />;
+  }
   if (status === "authenticated" && !authenticate) {
     setautheticate(true);
   }
@@ -40,10 +37,15 @@ const User = () => {
           </svg>
         </div>
       ) : (
-        <div onClick={(()=>{signOut()})} className=" border cursor-pointer rounded-md">
+        <div
+          onClick={() => {
+            signOut();
+          }}
+          className=" border cursor-pointer rounded-md"
+        >
           {" "}
           <Image
-          className="rounded-md"
+            className="rounded-md"
             src={session?.user?.image || ""}
             width={35}
             height={35}
